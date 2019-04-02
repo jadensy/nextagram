@@ -5,7 +5,7 @@ from instagram_web.blueprints.sessions.views import sessions_blueprint
 from flask_assets import Environment, Bundle
 from .util.assets import bundles
 from flask_wtf.csrf import CsrfProtect
-from flask_login import LoginManager
+from flask_login import LoginManager, login_required
 import os
 from models.user import User
 

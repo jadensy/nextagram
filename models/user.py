@@ -4,8 +4,6 @@ import os
 from flask_login import UserMixin
 from peewee_validates import ModelValidator, validate_email, StringField
 
-
-
 class User(BaseModel, UserMixin):
     first_name = pw.CharField()
     last_name = pw.CharField(null=True)
@@ -17,9 +15,9 @@ class User(BaseModel, UserMixin):
         duplicate_username = User.get_or_none(User.username == self.username)
         duplicate_email = User.get_or_none(User.email == self.email)
 
-        if duplicate_username:
+        if duplicate_username and not duplicate_username.id == self.id:
             self.errors.append('Username has been registered. Please try another.')
-        elif duplicate_email:
+        elif duplicate_email and not duplicate_email.id == self.id:
             self.errors.append('Email has been registered. Please try another.')
 
     class CustomValidator(ModelValidator):
