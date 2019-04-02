@@ -7,6 +7,7 @@ from .util.assets import bundles
 from flask_wtf.csrf import CsrfProtect
 from flask_login import LoginManager, login_required
 import os
+import helpers
 from models.user import User
 
 assets = Environment(app)

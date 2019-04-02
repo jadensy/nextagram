@@ -1,7 +1,9 @@
 from flask import Flask, Blueprint, render_template, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from models.user import User
 from flask_login import current_user, login_required
+import helpers
 import re
 
 
@@ -79,3 +81,25 @@ def update(id):
 
     else:
         return render_template('home', errors=['Log in to access this page.'])
+
+
+@users_blueprint.route('/<id>/edit/upload', methods=['POST'])
+@login_required
+def upload(id):
+    # pass
+    flash('this button is working')
+    return render_template('users/edit.html', id=current_user.id)
+    # file = request.files.get('upload_profile_photo')
+    # if file:
+    #     file.filename = secure_filename(file.filename)
+
+
+
+    # s3_resource = boto3.resource('s3')
+    # my_bucket = s3_resource.Bucket(S3_BUCKET)
+    # my_bucket.Object(file.filename).put(Body=file)
+
+    # flash('File uploaded successfully')
+    # return redirect(url_for('users.edit', id=current_user.id))
+
+# ALLOW EXTENSIONS SOMEWHERE HERE
