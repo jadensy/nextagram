@@ -26,9 +26,9 @@ def internal_server_error(e):
 def internal_server_error(e):
     return render_template('404.html'), 404
 
-@app.errorhandler(400)
-def internal_server_error(e):
-    return render_template('400.html'), 400
+# @app.errorhandler(400)
+# def internal_server_error(e):
+#     return render_template('400.html'), 400
 
 login_manager = LoginManager()
 login_manager.init_app(app)

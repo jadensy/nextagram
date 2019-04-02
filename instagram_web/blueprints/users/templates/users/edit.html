@@ -11,7 +11,7 @@
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
-<p class="bg-info" style="padding: 15px;">
+<!-- <p class="bg-info" style="padding: 15px;"> -->
     {% for message in messages %}
     {{ message }}<br>
     {% endfor %}
@@ -19,8 +19,10 @@
 {% endif %}
 {% endwith %}
 
-<form class="upload-form" action="{{ url_for('users.upload', id=current_user.id) }}" method="POST" enctype="multipart/form-data">
-    <p><input type="file" name="upload_profile_photo"></p>
+<form class="upload-form" action="{{ url_for('users.upload', id=current_user.id) }}"
+    method="POST" enctype="multipart/form-data">
+    <input type='hidden' name='csrf_token' value="{{csrf_token()}}" />
+    <p><input type="file" name="user_pic"></p>
     <button type="submit" class="btn btn-primary">Upload</button>
 </form>
 

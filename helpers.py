@@ -22,12 +22,10 @@ def upload_file_to_s3(file, bucket_name, acl="public-read"):
         )
 
     except Exception as e:
-        # This is a catch all exception, edit this part to fit your needs.
         print("Something Happened: ", e)
         return e
 
-    return f"{app.config.Config.S3_LOCATION}{file.filename}"
-
+    return f"{Config.S3_LOCATION}{file.filename}"
 
 def allowed_file(filename):
     allowed_extensions = set(['png', 'jpeg', 'jpg', 'gif'])

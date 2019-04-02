@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from models.user import User
 from flask_login import current_user, login_required
+from config import Config
 import helpers
 import re
 
@@ -10,7 +11,6 @@ import re
 users_blueprint = Blueprint('users',
                             __name__,
                             template_folder='templates')
-
 
 #  ---------------------------------------------------------
 @users_blueprint.route('/new', methods=['GET'])
@@ -34,7 +34,6 @@ def create():
     else:
         flash("Failed to create new user. Try again?")
         return render_template('users/new.html', errors=u.errors)
-
 
 #  WORKING
 #  ---------------------------------------------------------
@@ -86,10 +85,22 @@ def update(id):
 @users_blueprint.route('/<id>/edit/upload', methods=['POST'])
 @login_required
 def upload(id):
+    file = request.files.get('user_pic')
+    if file.filename == "":
+        flash('Please select a picture for upload')
+    if file and helpers.allowed_file(file.filename):
+        file.filename = secure_filename(file.filename)
+        output = helpers.upload_file_to_s3(file, Config.S3_BUCKET)
+        return str(output)
+    else:
+        return redirect("/")
+
+
+
     # pass
-    flash('this button is working')
-    return render_template('users/edit.html', id=current_user.id)
-    # file = request.files.get('upload_profile_photo')
+    # flash('this button is working')
+    # return render_template('users/edit.html', id=current_user.id)
+    # file = request.files.get('user_pic')
     # if file:
     #     file.filename = secure_filename(file.filename)
 
