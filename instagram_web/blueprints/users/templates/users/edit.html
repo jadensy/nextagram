@@ -9,8 +9,9 @@
     {% endfor %}
 </ul>
 
-<p> USER PROFILE PAGE GOES HERE </p>
-<p> {{current_user.username}} </p>
+<p> USER PROFILE IMAGE GOES HERE </p>
+
+<p> Hello @{{current_user.username}}. Update your details:</p>
 
 <form action="{{ url_for('users.update', id=current_user.id) }}" class="col-md-4" method="POST">
     <input type='hidden' name='csrf_token' value="{{csrf_token()}}" />
@@ -31,7 +32,5 @@
     </div>
     <button type="submit" class="btn btn-success">Update Profile</button>
 </form><br />
-
-<p>Already have an account? <a href="{{url_for('sessions.login')}}">Login.</a></p>
 
 {% endblock %}
