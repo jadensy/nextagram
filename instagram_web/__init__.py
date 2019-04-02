@@ -18,13 +18,13 @@ app.register_blueprint(sessions_blueprint, url_prefix="/sessions")
 
 csrf = CsrfProtect(app)
 
-@app.errorhandler(500)
-def internal_server_error(e):
-    return render_template('500.html'), 500
+# @app.errorhandler(500)
+# def internal_server_error(e):
+#     return render_template('500.html'), 500
 
-@app.errorhandler(404)
-def internal_server_error(e):
-    return render_template('404.html'), 404
+# @app.errorhandler(404)
+# def internal_server_error(e):
+#     return render_template('404.html'), 404
 
 # @app.errorhandler(400)
 # def internal_server_error(e):
