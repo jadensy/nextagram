@@ -34,6 +34,10 @@
           <a class="nav-item nav-link" href="{{url_for('sessions.login')}}">Login</a>
           <a class="nav-item nav-link" href="{{url_for('sessions.logout')}}">Logout</a>
 
+          {% if current_user.is_authenticated %}
+          <p>Logged in as #{{current_user.id}} - {{current_user.username}}</p>
+          {% endif %}
+
         </div>
       </div>
     </nav>
@@ -51,9 +55,6 @@
     {% block content %}
     {% endblock %}
 
-    {% if current_user.is_authenticated %}
-    <p>Logged in as {{current_user.first_name}}</p>
-    {% endif %}
 
 
   </body>
