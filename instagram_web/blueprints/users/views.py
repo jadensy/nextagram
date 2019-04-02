@@ -59,18 +59,21 @@ def edit(id):
 @login_required
 def update(id):
     user = User.get_by_id(id)
+    if not re.search(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})', request.form.get('change_password')):
+        return render_template('users/edit.html', errors=["Password must be at least 6 chars long, contain at least 1 capital letter, number, & symbol."])
+    change_pw_hashed = generate_password_hash(request.form.get('change_password'))
 
     if current_user == user:
         user.first_name = request.form.get('change_firstname')
         user.last_name = request.form.get('change_lastname')
 
-        user.password = generate_password_hash(request.form.get('change_password'))
+        user.password = change_pw_hashed
         user.email = request.form.get('change_email')
 
         if user.save():
             return redirect(url_for('users.edit', id=current_user.id))
         else:
-            return render_template('users/edit.html', user=user)
+            return render_template('users/edit.html', user=user, errors=user.errors)
 
     else:
         return render_template('home', errors=['Log in to access this page.'])
