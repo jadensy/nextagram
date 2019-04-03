@@ -6,6 +6,8 @@ from flask_login import current_user, login_required
 from config import Config
 import helpers
 import re
+from datetime import date
+
 
 
 users_blueprint = Blueprint('users',
@@ -51,6 +53,7 @@ def index():
 @login_required
 def edit(id):
     user = User.get_by_id(id)
+
     if current_user == user:
         return render_template('users/edit.html', user=user)
     else:
@@ -79,21 +82,27 @@ def update(id):
             return render_template('users/edit.html', id=current_user.id, errors=user.errors)
 
     else:
-        return render_template('home', errors=['Log in to access this page.'])
+        return render_template('home.html', errors=['Log in to access this page.'])
 
 
 @users_blueprint.route('/<id>/edit/upload', methods=['POST'])
 @login_required
 def upload(id):
+    user = User.get_by_id(id)
     file = request.files.get('user_pic')
-    if file.filename == "":
+    # if "user_pic" not in request.files:
+    #     flash file.filename == "" or
+    if "user_pic" not in request.files or file.filename == "":
         flash('Please select a picture for upload')
     if file and helpers.allowed_file(file.filename):
-        file.filename = secure_filename(file.filename)
+        file.filename = secure_filename(f"{str(id)}_{str(date.today())}_{file.filename}")
         output = helpers.upload_file_to_s3(file, Config.S3_BUCKET)
-        return str(output)
+        user.profile_pic = file.filename
+        user.save()
+        # return str(output)
+        return redirect(url_for('users.edit', id=id))
     else:
-        return redirect("/")
+        return redirect(url_for('users.edit', id=id))
 
 
 

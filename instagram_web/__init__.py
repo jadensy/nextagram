@@ -5,7 +5,7 @@ from instagram_web.blueprints.sessions.views import sessions_blueprint
 from flask_assets import Environment, Bundle
 from .util.assets import bundles
 from flask_wtf.csrf import CsrfProtect
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, current_user
 import os
 import helpers
 from models.user import User
@@ -41,5 +41,5 @@ def load_user(id):
 
 @app.route("/")
 def home():
+    user = User.get_by_id(current_user.id)
     return render_template('home.html')
-

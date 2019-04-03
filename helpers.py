@@ -1,7 +1,8 @@
 import os
 import boto3, botocore
 from config import Config
-from app import app
+from models.user import User
+from flask_login import current_user
 
 s3 = boto3.client(
    "s3",
@@ -10,11 +11,12 @@ s3 = boto3.client(
 )
 
 def upload_file_to_s3(file, bucket_name, acl="public-read"):
+    user = User.get_by_id(current_user.id)
     try:
         s3.upload_fileobj(
             file,
             bucket_name,
-            file.filename,
+            str(user.id) + '/' + file.filename,
             ExtraArgs={
                 "ACL": acl,
                 "ContentType": file.content_type
