@@ -9,8 +9,27 @@
     {% endfor %}
 </ul>
 
-<p> USER PROFILE PAGE GOES HERE </p>
-<p> {{current_user.username}} </p>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<!-- <p class="bg-info" style="padding: 15px;"> -->
+    {% for message in messages %}
+    {{ message }}<br>
+    {% endfor %}
+</p>
+{% endif %}
+{% endwith %}
+
+<form class="upload-form" action="{{ url_for('users.upload', id=current_user.id) }}"
+    method="POST" enctype="multipart/form-data">
+    <input type='hidden' name='csrf_token' value="{{csrf_token()}}" />
+    <p><input type="file" name="user_pic"></p>
+    <button type="submit" class="btn btn-primary">Upload</button>
+</form>
+
+
+<img src="{{ current_user.profile_image_url }}" class="rounded-circle" height="250px" width="250px">
+
+<p> Hello @{{current_user.username}}. Update your details:</p>
 
 <form action="{{ url_for('users.update', id=current_user.id) }}" class="col-md-4" method="POST">
     <input type='hidden' name='csrf_token' value="{{csrf_token()}}" />
@@ -31,7 +50,5 @@
     </div>
     <button type="submit" class="btn btn-success">Update Profile</button>
 </form><br />
-
-<p>Already have an account? <a href="{{url_for('sessions.login')}}">Login.</a></p>
 
 {% endblock %}

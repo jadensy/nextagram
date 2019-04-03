@@ -3,6 +3,9 @@ import peewee as pw
 import os
 from flask_login import UserMixin
 from peewee_validates import ModelValidator, validate_email, StringField
+from playhouse.hybrid import hybrid_property
+from config import Config
+
 
 class User(BaseModel, UserMixin):
     first_name = pw.CharField()
@@ -10,6 +13,15 @@ class User(BaseModel, UserMixin):
     username = pw.CharField(unique=True)
     email = pw.CharField(unique=True)
     password = pw.CharField()
+    profile_pic = pw.CharField(null=True)
+
+    @hybrid_property
+    def profile_image_url(self):
+        profile_pic = self.profile_pic
+        if not profile_pic:
+            return f"{Config.S3_LOCATION}_placeholder.jpg"
+        else:
+            return f"{Config.S3_LOCATION}{self.id}/{self.profile_pic}"
 
     def validate(self):
         duplicate_username = User.get_or_none(User.username == self.username)
