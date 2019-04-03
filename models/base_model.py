@@ -25,6 +25,17 @@ class BaseModel(pw.Model):
         else:
             return 0
 
+    class CustomValidator(ModelValidator):
+        class Meta:
+            messages = {}
+
+    class Meta:
+        database = db
+        legacy_table_names = False
+
+
+
+
     # def validate(self):
     #     print(
     #         f"Warning validation method not implemented for {str(type(self))}")
@@ -39,11 +50,3 @@ class BaseModel(pw.Model):
     #         self.errors.append('Username has been registered. Please try another.')
     #     elif duplicate_email:
     #         self.errors.append('Email has been registered. Please try another.')
-
-    class CustomValidator(ModelValidator):
-        class Meta:
-            messages = {}
-
-    class Meta:
-        database = db
-        legacy_table_names = False
