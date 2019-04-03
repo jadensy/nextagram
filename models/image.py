@@ -11,5 +11,5 @@ class Image(BaseModel):
     caption = pw.TextField(null=True)
 
     @hybrid_property
-    def profile_image_url(self):
+    def feed_image_url(self):
         return f"{Config.S3_LOCATION}{self.user_id}/{self.image_url}"

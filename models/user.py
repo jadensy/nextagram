@@ -33,6 +33,22 @@ class User(BaseModel, UserMixin):
         elif duplicate_email and not duplicate_email.id == self.id:
             self.errors.append('Email has been registered. Please try another.')
 
+    def save(self, *args, **kwargs):
+        self.errors = []
+        self.validate()
+        validator = self.CustomValidator(self)
+        validator.validate()
+
+        if validator.errors != 0:
+            for error in validator.errors.values():
+                self.errors.append(error)
+
+        if len(self.errors) == 0:
+            self.updated_at = datetime.datetime.now()
+            return super(BaseModel, self).save(*args, **kwargs)
+        else:
+            return 0
+
     class CustomValidator(ModelValidator):
         first_name = StringField(required=True)
         username = StringField(required=True)

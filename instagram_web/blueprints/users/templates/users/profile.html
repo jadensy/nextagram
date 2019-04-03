@@ -21,10 +21,16 @@
 {% endif %}
 {% endwith %}
 
-<img src="{{ current_user.profile_image_url }}" class="rounded-circle" height="250px" width="250px">
+<img src="{{ user.profile_image_url }}" class="rounded-circle" height="250px" width="250px">
 
-<p>@{{current_user.username}}</p>
+<p>
+    @{{user.username}} <br/>
+    {{user.first_name}} <br/>
+</p>
 
+{% for img in user.images[0:10] %}
+<img src ="{{ img.feed_image_url }}" class="rounded-0" height="350px" width="350px">
+{% endfor %}
 
 <form class="upload-form" action="{{ url_for('images.create') }}"
     method="POST" enctype="multipart/form-data">
@@ -32,8 +38,6 @@
     <p><input type="file" name="upload_pic"></p>
     <button type="submit" class="btn btn-primary">Upload</button>
 </form>
-
-
 
 
 {% endblock %}
