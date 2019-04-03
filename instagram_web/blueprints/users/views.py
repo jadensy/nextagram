@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, render_template, request, redirect, url_for,
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from models.user import User
+from models.image import Image
 from flask_login import current_user, login_required
 from config import Config
 import helpers
@@ -34,13 +35,39 @@ def create():
         flash("Failed to create new user. Try again?")
         return render_template('users/new.html', errors=u.errors)
 
+
+
+
+
+
+
+# UNDER CONSTRUCTION
+# -------------------------------------------------------------------------
+
 @users_blueprint.route('/<username>', methods=["GET"])
 def show(username):
-    pass
+    return render_template('users/profile.html', username=username)
+
+
+
+
+
+
 
 @users_blueprint.route('/', methods=["GET"])
 def index():
     return "USERS"
+
+
+
+# -------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 @users_blueprint.route('/<id>/edit', methods=['GET'])
 @login_required
