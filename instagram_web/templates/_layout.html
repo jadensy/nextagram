@@ -30,6 +30,7 @@
           <!-- <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a> -->
           <a class="nav-item nav-link" href="#">/emptylinkone/</a>
           <a class="nav-item nav-link" href="#">/emptylinktwo/</a>
+          <a class="nav-item nav-link" href="{{url_for('users.edit', id=current_user.id)}}">Edit Profile</a>
           <a class="nav-item nav-link" href="{{url_for('users.new')}}">Sign Up</a>
           <a class="nav-item nav-link" href="{{url_for('sessions.login')}}">Login</a>
           <a class="nav-item nav-link" href="{{url_for('sessions.logout')}}">Logout</a>
