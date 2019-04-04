@@ -28,16 +28,20 @@
     {{user.first_name}} <br/>
 </p>
 
-{% for img in user.images[0:10] %}
-<img src ="{{ img.feed_image_url }}" class="rounded-0" height="350px" width="350px">
-{% endfor %}
+{% if current_user.id == user.id %}
+    <form id="upload-form" class="upload-form" action="{{ url_for('images.create') }}" method="POST" onSubmit='disableButton()' enctype="multipart/form-data">
+        <input type='hidden' name='csrf_token' value="{{csrf_token()}}" />
+        <p><input type="file" name="upload_pic"></p>
+        <button id="upload_button" type="submit" class="btn btn-primary">Upload</button>
+    </form>
+{% endif %}
 
-<form class="upload-form" action="{{ url_for('images.create') }}"
-    method="POST" enctype="multipart/form-data">
-    <input type='hidden' name='csrf_token' value="{{csrf_token()}}" />
-    <p><input type="file" name="upload_pic"></p>
-    <button type="submit" class="btn btn-primary">Upload</button>
-</form>
-
+{% if user.private == False or current_user.id == user.id %}
+    {% for img in user.images[0:10] %}
+    <img src ="{{ img.feed_image_url }}" class="rounded-0" height="350px" width="350px">
+    {% endfor %}
+{% else %}
+    <p>This user's profile is private. Follow them to show their images.</p>
+{% endif %}
 
 {% endblock %}

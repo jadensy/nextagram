@@ -61,4 +61,17 @@
 
 
   </body>
+
+
+  <script>
+
+    function disableButton(){
+      form = document.getElementById('upload-form');
+      btn = document.getElementById('upload_button');
+      form.submit()
+      btn.disabled = true
+      btn.innerHTML = 'Uploading...'
+    }
+
+  </script>
 </html>
