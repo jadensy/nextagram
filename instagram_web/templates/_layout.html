@@ -27,16 +27,19 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <!-- <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a> -->
+
+          {% if current_user.is_authenticated %}
+          <a class="nav-item nav-link" href="#">[Logged in as #{{current_user.id}} {{current_user.username}}]</a>
+          {% endif %}
+
           <a class="nav-item nav-link" href="#">/emptylinkone/</a>
           <a class="nav-item nav-link" href="#">/emptylinktwo/</a>
+          <a class="nav-item nav-link" href="{{url_for('users.show', username=current_user.username)}}">Profile</a>
+
+          <a class="nav-item nav-link" href="{{url_for('users.edit', id=current_user.id)}}">Edit Profile</a>
           <a class="nav-item nav-link" href="{{url_for('users.new')}}">Sign Up</a>
           <a class="nav-item nav-link" href="{{url_for('sessions.login')}}">Login</a>
           <a class="nav-item nav-link" href="{{url_for('sessions.logout')}}">Logout</a>
-
-          {% if current_user.is_authenticated %}
-          <p>Logged in as #{{current_user.id}} - {{current_user.username}}</p>
-          {% endif %}
 
         </div>
       </div>
@@ -58,4 +61,17 @@
 
 
   </body>
+
+
+  <script>
+
+    function disableButton(){
+      form = document.getElementById('upload-form');
+      btn = document.getElementById('upload_button');
+      form.submit()
+      btn.disabled = true
+      btn.innerHTML = 'Uploading...'
+    }
+
+  </script>
 </html>

@@ -12,12 +12,10 @@ class BaseModel(pw.Model):
     def save(self, *args, **kwargs):
         self.errors = []
         self.validate()
-        validator = self.CustomValidator(self)
-        validator.validate()
 
-        if validator.errors != 0:
-            for error in validator.errors.values():
-                self.errors.append(error)
+        # if validator.errors != 0:
+        #     for error in validator.errors.values():
+        #         self.errors.append(error)
 
         if len(self.errors) == 0:
             self.updated_at = datetime.datetime.now()
@@ -25,10 +23,22 @@ class BaseModel(pw.Model):
         else:
             return 0
 
-    # def validate(self):
-    #     print(
-    #         f"Warning validation method not implemented for {str(type(self))}")
-    #     return True
+    def validate(self):
+        print(f"Warning validation method not implemented for {str(type(self))}")
+        return True
+
+    class CustomValidator(ModelValidator):
+        class Meta:
+            messages = {}
+
+    class Meta:
+        database = db
+        legacy_table_names = False
+
+
+
+
+
 
     # def validate(self):
     #     from models.user import User
@@ -39,11 +49,3 @@ class BaseModel(pw.Model):
     #         self.errors.append('Username has been registered. Please try another.')
     #     elif duplicate_email:
     #         self.errors.append('Email has been registered. Please try another.')
-
-    class CustomValidator(ModelValidator):
-        class Meta:
-            messages = {}
-
-    class Meta:
-        database = db
-        legacy_table_names = False
