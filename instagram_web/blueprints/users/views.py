@@ -35,12 +35,6 @@ def create():
         flash("Failed to create new user. Try again?")
         return render_template('users/new.html', errors=u.errors)
 
-
-
-
-
-
-
 # UNDER CONSTRUCTION
 # -------------------------------------------------------------------------
 
@@ -49,26 +43,11 @@ def show(username):
     user = User.get(User.username==username)
     return render_template('users/profile.html', user=user, username=username)
 
-
-
-
-
-
-
 @users_blueprint.route('/', methods=["GET"])
 def index():
     return "USERS"
 
-
-
 # -------------------------------------------------------------------------
-
-
-
-
-
-
-
 
 @users_blueprint.route('/<id>/edit', methods=['GET'])
 @login_required
