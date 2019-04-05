@@ -43,3 +43,9 @@ gateway = braintree.BraintreeGateway(
         private_key = os.environ.get('BT_PRIVATE_KEY')
     )
 )
+
+def transact(options):
+    return gateway.transaction.sale(options)
+
+def find_transaction(id):
+    return gateway.transaction.find(id)
