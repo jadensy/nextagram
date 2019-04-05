@@ -3,6 +3,8 @@
 
 {% block content %}
 
-{{ transaction_id }}
+{{ transaction.id }}
+{{ transaction.currency_iso_code }} {{ transaction.amount }}
+{{ transaction.created_at }}
 
 {% endblock %}

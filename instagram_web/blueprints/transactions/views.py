@@ -49,6 +49,11 @@ def success(transaction_id):
     # # breakpoint()
     # transaction = helpers.find_transaction(transaction.id)
 
+    transaction = helpers.find_transaction(transaction_id)
+
+    # putting this here sends an email each time this page is refreshed
+    # fix this, put it in pay()
+
     message = Mail(
         from_email='from_email@example.com',
         to_emails='chibijade99@gmail.com',
@@ -67,7 +72,7 @@ def success(transaction_id):
     except Exception as e:
         print(e.message)
 
-    return render_template('transactions/receipt.html', transaction_id=transaction_id)
+    return render_template('transactions/receipt.html', transaction=transaction)
 
 
 
