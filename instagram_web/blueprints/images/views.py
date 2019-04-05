@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 from config import Config
 import helpers
 import re
-from datetime import date
+import datetime
 
 images_blueprint = Blueprint('images',
                             __name__,
@@ -23,7 +23,7 @@ def create():
         flash('Please select a picture for upload')
 
     if file and helpers.allowed_file(file.filename):
-        file.filename = secure_filename(f"feed_{str(date.today())}_{file.filename}")
+        file.filename = secure_filename(f"feed_{str(datetime.datetime.now())}_{file.filename}")
         output = helpers.upload_file_to_s3(file, Config.S3_BUCKET)
 
         Image.create(user_id=current_user.id, image_url=file.filename)

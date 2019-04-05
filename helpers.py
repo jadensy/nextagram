@@ -3,6 +3,7 @@ import boto3, botocore
 from config import Config
 from models.user import User
 from flask_login import current_user
+import braintree
 
 s3 = boto3.client(
    "s3",
@@ -33,3 +34,18 @@ def allowed_file(filename):
     allowed_extensions = set(['png', 'jpeg', 'jpg', 'gif'])
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+gateway = braintree.BraintreeGateway(
+    braintree.Configuration(
+        braintree.Environment.Sandbox,
+        merchant_id = os.environ.get('BT_MERCHANT_ID'),
+        public_key = os.environ.get('BT_PUBLIC_KEY'),
+        private_key = os.environ.get('BT_PRIVATE_KEY')
+    )
+)
+
+def transact(options):
+    return gateway.transaction.sale(options)
+
+def find_transaction(id):
+    return gateway.transaction.find(id)
